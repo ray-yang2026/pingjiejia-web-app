@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import DishManagement from './pages/DishManagement';
 import SupplierManagement from './pages/SupplierManagement';
 import ConfigManagement from './pages/ConfigManagement';
+import OrderManagement from './pages/OrderManagement';
 
 const App: React.FC = () => {
     return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
 
                     <nav className="flex-1 p-4 space-y-2">
                         <NavItem to="/" icon="dashboard" label="仪表盘" />
+                        <NavItem to="/orders" icon="group" label="客户与订单" />
                         <NavItem to="/dishes" icon="restaurant_menu" label="菜品管理" />
                         <NavItem to="/suppliers" icon="inventory_2" label="供应商管理" />
                         <NavItem to="/config" icon="settings" label="系统配置" />
@@ -48,6 +50,7 @@ const App: React.FC = () => {
                     <div className="p-8">
                         <Routes>
                             <Route path="/" element={<Dashboard />} />
+                            <Route path="/orders" element={<OrderManagement />} />
                             <Route path="/dishes" element={<DishManagement />} />
                             <Route path="/suppliers" element={<SupplierManagement />} />
                             <Route path="/config" element={<ConfigManagement />} />
@@ -67,8 +70,8 @@ const NavItem: React.FC<{ to: string; icon: string; label: string }> = ({ to, ic
         <Link
             to={to}
             className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${isActive
-                    ? 'bg-primary text-white shadow-lg shadow-primary/30'
-                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white'
+                ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white'
                 }`}
         >
             <span className="material-symbols-outlined">{icon}</span>
