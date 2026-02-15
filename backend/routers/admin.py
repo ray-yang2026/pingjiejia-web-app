@@ -107,9 +107,12 @@ async def delete_ingredient(item_id: str):
 # ==================== 图片上传 API ====================
 
 # 本地上传目录（当 Firebase Storage 未配置时的回退方案）
-UPLOAD_DIR = "uploads"
-if not os.path.exists(UPLOAD_DIR):
-    os.makedirs(UPLOAD_DIR)
+UPLOAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "uploads")
+try:
+    if not os.path.exists(UPLOAD_DIR):
+        os.makedirs(UPLOAD_DIR, exist_ok=True)
+except Exception:
+    pass
 
 
 @router.post("/upload")

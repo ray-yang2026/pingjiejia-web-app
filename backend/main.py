@@ -21,8 +21,14 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# 挂载静态文件目录 (上传的图片)
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+# 挂载静态文件目录 (上传的图片 — 本地开发用，Vercel 上使用 Firebase Storage)
+try:
+    upload_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
+    if not os.path.exists(upload_dir):
+        os.makedirs(upload_dir, exist_ok=True)
+    app.mount("/uploads", StaticFiles(directory=upload_dir), name="uploads")
+except Exception:
+    pass
 
 # CORS 配置 — 开发环境允许前端 localhost:3000 访问
 app.add_middleware(
