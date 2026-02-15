@@ -151,3 +151,49 @@ export async function deleteDish(dishId: string) {
   if (!res.ok) throw new Error('删除菜品失败');
   return res.json();
 }
+
+// ==================== 管理后台扩展 API ====================
+
+export async function fetchStats() {
+  const res = await fetch(`${API_BASE}/admin/stats`);
+  if (!res.ok) throw new Error('获取统计数据失败');
+  return res.json();
+}
+
+export async function fetchIngredientLibrary() {
+  const res = await fetch(`${API_BASE}/admin/ingredients`);
+  if (!res.ok) throw new Error('获取原料库失败');
+  return res.json();
+}
+
+export async function saveIngredientLibrary(item: any) {
+  const res = await fetch(`${API_BASE}/admin/ingredients`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(item),
+  });
+  if (!res.ok) throw new Error('保存原料失败');
+  return res.json();
+}
+
+export async function deleteIngredientLibrary(id: string) {
+  const res = await fetch(`${API_BASE}/admin/ingredients/${id}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('删除原料失败');
+  return res.json();
+}
+
+export async function uploadImage(file: File) {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const res = await fetch(`${API_BASE}/admin/upload`, {
+    method: 'POST',
+    body: formData,
+  });
+  if (!res.ok) throw new Error('上传图片失败');
+  const data = await res.json();
+  // 注意：如果本地开发，返回的是相对路径，需要拼接成完整路径或让代理处理
+  return data;
+}

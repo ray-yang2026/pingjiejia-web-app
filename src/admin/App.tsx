@@ -5,6 +5,7 @@ import DishManagement from './pages/DishManagement';
 import SupplierManagement from './pages/SupplierManagement';
 import ConfigManagement from './pages/ConfigManagement';
 import OrderManagement from './pages/OrderManagement';
+import IngredientManagement from './pages/IngredientManagement';
 
 const App: React.FC = () => {
     return (
@@ -23,6 +24,7 @@ const App: React.FC = () => {
                         <NavItem to="/" icon="dashboard" label="仪表盘" />
                         <NavItem to="/orders" icon="group" label="客户与订单" />
                         <NavItem to="/dishes" icon="restaurant_menu" label="菜品管理" />
+                        <NavItem to="/ingredients" icon="egg_alt" label="原材料库" />
                         <NavItem to="/suppliers" icon="inventory_2" label="供应商管理" />
                         <NavItem to="/config" icon="settings" label="系统配置" />
                     </nav>
@@ -52,6 +54,7 @@ const App: React.FC = () => {
                             <Route path="/" element={<Dashboard />} />
                             <Route path="/orders" element={<OrderManagement />} />
                             <Route path="/dishes" element={<DishManagement />} />
+                            <Route path="/ingredients" element={<IngredientManagement />} />
                             <Route path="/suppliers" element={<SupplierManagement />} />
                             <Route path="/config" element={<ConfigManagement />} />
                         </Routes>

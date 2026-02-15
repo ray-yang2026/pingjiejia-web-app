@@ -11,12 +11,20 @@ class OrderStatus(str, Enum):
     COMPLETED = "已完成"
 
 
+class IngredientLibraryItem(BaseModel):
+    """原材料库中的项（支持层级）"""
+    id: str
+    name: str
+    level: int  # 1 为大类，2 为子类
+    parentId: Optional[str] = None  # 如果是 level 2，指向 level 1 的 id
+
+
 class Ingredient(BaseModel):
-    """菜品原料"""
+    """菜品关联的原材料（带分量）"""
+    libId: str  # 指向 IngredientLibraryItem.id
     name: str
     amount: str
-    category: Literal["肉类", "菜类", "佐料类", "其他"]
-    detail: Optional[str] = None
+    category: str
 
 
 class Dish(BaseModel):
@@ -105,3 +113,11 @@ class SystemConfig(BaseModel):
     id: str
     label: str
     values: list[str]
+
+
+class DashboardStats(BaseModel):
+    """仪表盘统计数据"""
+    totalOrders: int
+    totalDishes: int
+    totalSuppliers: int
+    activeOrders: int

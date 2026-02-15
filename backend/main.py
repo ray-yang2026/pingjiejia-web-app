@@ -3,6 +3,7 @@
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from routers import dishes, orders, suppliers, admin
 
 app = FastAPI(
@@ -10,6 +11,9 @@ app = FastAPI(
     description="流动宴席管理系统后端接口",
     version="1.0.0",
 )
+
+# 挂载静态文件目录 (上传的图片)
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # CORS 配置 — 开发环境允许前端 localhost:3000 访问
 app.add_middleware(

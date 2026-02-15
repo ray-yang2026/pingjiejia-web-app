@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchStats } from '../../../apiService';
 
 const Dashboard: React.FC = () => {
+    const [stats, setStats] = useState<any>(null);
+
+    useEffect(() => {
+        fetchStats().then(setStats).catch(console.error);
+    }, []);
+
     return (
         <div className="space-y-6">
             <h2 className="text-2xl font-bold">仪表盘</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <StatCard title="总订单数" value="12" icon="receipt_long" color="bg-blue-500" />
-                <StatCard title="菜品总数" value="48" icon="restaurant" color="bg-orange-500" />
-                <StatCard title="供应商" value="5" icon="local_shipping" color="bg-emerald-500" />
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <StatCard title="总订单" value={stats?.totalOrders || '0'} icon="receipt_long" color="bg-blue-500" />
+                <StatCard title="待执行" value={stats?.activeOrders || '0'} icon="pending_actions" color="bg-amber-500" />
+                <StatCard title="菜品总数" value={stats?.totalDishes || '0'} icon="restaurant" color="bg-orange-500" />
+                <StatCard title="供应商" value={stats?.totalSuppliers || '0'} icon="local_shipping" color="bg-emerald-500" />
             </div>
         </div>
     );
