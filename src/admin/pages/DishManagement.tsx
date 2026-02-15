@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import * as api from '../../../apiService';
+import type { Dish, DishCreate, Ingredient, IngredientLibraryItem } from '../../../types';
 
 const DishManagement: React.FC = () => {
-    const [dishes, setDishes] = useState<any[]>([]);
+    const [dishes, setDishes] = useState<Dish[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
-    const [ingLibrary, setIngLibrary] = useState<any[]>([]);
+    const [ingLibrary, setIngLibrary] = useState<IngredientLibraryItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentDish, setCurrentDish] = useState<any>(null);
+    const [currentDish, setCurrentDish] = useState<Partial<Dish> | null>(null);
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
@@ -88,7 +89,7 @@ const DishManagement: React.FC = () => {
 
                                 {dish.ingredients && dish.ingredients.length > 0 && (
                                     <div className="flex flex-wrap gap-1.5 pt-2">
-                                        {dish.ingredients.slice(0, 3).map((ing: any) => (
+                                        {dish.ingredients.slice(0, 3).map((ing: Ingredient) => (
                                             <span key={ing.libId} className="px-2 py-0.5 bg-slate-50 dark:bg-slate-700 rounded text-[10px] text-slate-500 font-bold">
                                                 {ing.name}
                                             </span>
@@ -243,7 +244,7 @@ const DishManagement: React.FC = () => {
                                 <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 dark:border-slate-700 pb-2">配料明细 (原材料)</h4>
 
                                 <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 no-scrollbar">
-                                    {currentDish?.ingredients?.map((ing: any, idx: number) => (
+                                    {currentDish?.ingredients?.map((ing: Ingredient, idx: number) => (
                                         <div key={idx} className="flex gap-2 items-center bg-slate-50 dark:bg-slate-900 p-3 rounded-2xl border border-slate-100 dark:border-slate-700">
                                             <div className="flex-1">
                                                 <div className="text-xs font-black">{ing.name}</div>
@@ -261,7 +262,7 @@ const DishManagement: React.FC = () => {
                                             />
                                             <button
                                                 onClick={() => {
-                                                    const newIngs = currentDish.ingredients.filter((_: any, i: number) => i !== idx);
+                                                    const newIngs = currentDish.ingredients!.filter((_: Ingredient, i: number) => i !== idx);
                                                     setCurrentDish({ ...currentDish, ingredients: newIngs });
                                                 }}
                                                 className="text-slate-300 hover:text-red-500"

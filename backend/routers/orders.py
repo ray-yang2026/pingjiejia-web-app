@@ -4,6 +4,7 @@
 import time
 import math
 import random
+from pydantic import BaseModel as _BaseModel
 from fastapi import APIRouter, HTTPException
 from models import Order, OrderCreate, OrderStatus, DayPlan, DayPlanSlots, MealSlot
 from firebase_client import db
@@ -80,6 +81,22 @@ async def update_order(order_id: str, order_data: Order):
         raise HTTPException(status_code=404, detail="订单不存在")
     doc_ref.set(order_data.model_dump())
     return order_data
+
+
+class _StatusUpdate(_BaseModel):
+    status: str
+
+
+@router.patch("/{order_id}/status", response_model=Order)
+async def update_order_status(order_id: str, body: _StatusUpdate):
+    """只更新订单状态"""
+    doc_ref = db.collection(COLLECTION).document(order_id)
+    doc = doc_ref.get()
+    if not doc.exists:
+        raise HTTPException(status_code=404, detail="订单不存在")
+    doc_ref.update({"status": body.status})
+    updated = doc_ref.get()
+    return updated.to_dict()
 
 
 @router.delete("/{order_id}")

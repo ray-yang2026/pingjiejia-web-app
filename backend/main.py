@@ -1,6 +1,15 @@
 """
 萍姐家流动餐 — FastAPI 后端入口
 """
+import os
+
+# 本地开发加载 .env（Vercel 环境会自动注入环境变量）
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles

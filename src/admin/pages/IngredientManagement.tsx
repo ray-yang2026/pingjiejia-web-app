@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import * as api from '../../../apiService';
+import type { IngredientLibraryItem } from '../../../types';
 
 const IngredientManagement: React.FC = () => {
-    const [ingredients, setIngredients] = useState<any[]>([]);
+    const [ingredients, setIngredients] = useState<IngredientLibraryItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [newItemName, setNewItemName] = useState('');
     const [selectedParentId, setSelectedParentId] = useState<string>('');
@@ -26,7 +27,7 @@ const IngredientManagement: React.FC = () => {
         if (!newItemName.trim()) return;
 
         const isLevel1 = !selectedParentId;
-        const newItem = {
+        const newItem: IngredientLibraryItem = {
             id: 'ing-' + Date.now(),
             name: newItemName.trim(),
             level: isLevel1 ? 1 : 2,

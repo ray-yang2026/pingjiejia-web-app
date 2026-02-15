@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import * as api from '../../../apiService';
+import type { Supplier } from '../../../types';
 
 const SupplierManagement: React.FC = () => {
-    const [suppliers, setSuppliers] = useState<any[]>([]);
+    const [suppliers, setSuppliers] = useState<Supplier[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentSupplier, setCurrentSupplier] = useState<any>(null);
+    const [currentSupplier, setCurrentSupplier] = useState<Supplier | null>(null);
 
     useEffect(() => {
         loadSuppliers();
