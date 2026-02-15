@@ -1,0 +1,8 @@
+{
+  "name": "萍姐家流动餐管理系统",
+  "description": "专业流动宴席管理应用，包含客户登记、排期设置、智能点菜及物料清单生成功能。",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
