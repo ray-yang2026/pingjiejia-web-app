@@ -88,3 +88,20 @@ class DishCreate(BaseModel):
     category: str
     imageUrl: str
     ingredients: Optional[list[Ingredient]] = None
+
+
+class Supplier(BaseModel):
+    """供应商"""
+    id: str
+    name: str
+    category: str
+    contactName: Optional[str] = None
+    phone: str
+    note: Optional[str] = None
+
+
+class SystemConfig(BaseModel):
+    """系统配置项 (如菜品分类、事由)"""
+    id: str
+    label: str
+    values: list[str]

@@ -77,3 +77,77 @@ export async function deleteOrderApi(orderId: string) {
   if (!res.ok) throw new Error('删除订单失败');
   return res.json();
 }
+
+// ==================== 供应商 API ====================
+
+export async function fetchSuppliers() {
+  const res = await fetch(`${API_BASE}/suppliers/`);
+  if (!res.ok) throw new Error('获取供应商列表失败');
+  return res.json();
+}
+
+export async function createSupplier(supplierData: any) {
+  const res = await fetch(`${API_BASE}/suppliers/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(supplierData),
+  });
+  if (!res.ok) throw new Error('创建供应商失败');
+  return res.json();
+}
+
+export async function updateSupplier(supplierId: string, supplierData: any) {
+  const res = await fetch(`${API_BASE}/suppliers/${supplierId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(supplierData),
+  });
+  if (!res.ok) throw new Error('更新供应商失败');
+  return res.json();
+}
+
+export async function deleteSupplier(supplierId: string) {
+  const res = await fetch(`${API_BASE}/suppliers/${supplierId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('删除供应商失败');
+  return res.json();
+}
+
+// ==================== 系统配置 API ====================
+
+export async function fetchConfig(configId: string) {
+  const res = await fetch(`${API_BASE}/admin/config/${configId}`);
+  if (!res.ok) throw new Error('获取配置失败');
+  return res.json();
+}
+
+export async function saveConfig(configData: any) {
+  const res = await fetch(`${API_BASE}/admin/config/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(configData),
+  });
+  if (!res.ok) throw new Error('保存配置失败');
+  return res.json();
+}
+
+// ==================== 菜品管理 (扩展) ====================
+
+export async function updateDish(dishId: string, dishData: any) {
+  const res = await fetch(`${API_BASE}/dishes/${dishId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dishData),
+  });
+  if (!res.ok) throw new Error('更新菜品失败');
+  return res.json();
+}
+
+export async function deleteDish(dishId: string) {
+  const res = await fetch(`${API_BASE}/dishes/${dishId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('删除菜品失败');
+  return res.json();
+}

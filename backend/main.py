@@ -3,7 +3,7 @@
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import dishes, orders
+from routers import dishes, orders, suppliers, admin
 
 app = FastAPI(
     title="萍姐家流动餐 API",
@@ -23,6 +23,8 @@ app.add_middleware(
 # 注册路由
 app.include_router(dishes.router)
 app.include_router(orders.router)
+app.include_router(suppliers.router)
+app.include_router(admin.router)
 
 
 @app.get("/")
