@@ -1,15 +1,19 @@
 {
     "rewrites": [
         {
-            "source": "/api/(.*)",
+            "source": "/api/:path*",
             "destination": "/api/index.py"
         },
         {
-            "source": "/admin(.*)",
+            "source": "/admin",
             "destination": "/admin.html"
         },
         {
-            "source": "/((?!api/|admin).*)",
+            "source": "/admin/:path*",
+            "destination": "/admin.html"
+        },
+        {
+            "source": "/((?!api/|api$|admin/|admin$).*)",
             "destination": "/index.html"
         }
     ]
