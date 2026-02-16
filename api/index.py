@@ -1,8 +1,8 @@
 import os
 import sys
 
-# Ensure backend directory is in sys.path
-sys.path.append(os.path.join(os.path.dirname(__file__), '../backend'))
+# Ensure root directory is in sys.path so 'backend' package can be imported
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 try:
     from backend.main import app

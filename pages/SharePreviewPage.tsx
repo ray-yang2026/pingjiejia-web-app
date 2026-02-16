@@ -134,6 +134,7 @@ const SharePreviewPage: React.FC<SharePreviewPageProps> = ({ orders, dishes }) =
           <span className="material-symbols-outlined">inventory_2</span>
           生成原材料清单 (供货商用)
         </button>
+        {/*
         <div className="flex gap-4">
           <button className="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 h-12 rounded-2xl font-bold active:bg-slate-50 transition-colors">
             保存图片
@@ -142,6 +143,7 @@ const SharePreviewPage: React.FC<SharePreviewPageProps> = ({ orders, dishes }) =
             确认并发送
           </button>
         </div>
+        */}
       </footer>
     </div>
   );

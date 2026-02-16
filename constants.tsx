@@ -99,3 +99,19 @@ export const MOCK_ORDERS: Order[] = [
     ]
   }
 ];
+
+// ==================== 统一常量定义 ====================
+
+export const DISH_CATEGORIES = ['全部', '推荐菜', '肉菜', '素菜', '汤菜', '主食点心', '饮品', '小食'];
+
+// TODO: 后期可改为从 API 获取
+export const EVENT_REASONS: Array<{ value: string; label: string }> = [
+  { value: 'wedding', label: '婚宴' },
+  { value: 'birthday', label: '寿宴' },
+  { value: 'corporate', label: '商务宴请' },
+  { value: 'engagement', label: '订婚宴' },
+  { value: 'baby_shower', label: '满月酒' },
+  { value: 'housewarming', label: '乔迁宴' },
+  { value: 'funeral', label: '丧宴' },
+  { value: 'other', label: '其他' }
+];

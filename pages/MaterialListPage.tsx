@@ -44,7 +44,10 @@ const MaterialListPage: React.FC<MaterialListPageProps> = ({ orders, dishes }) =
       dish.ingredients.forEach(ing => {
         const numericPart = parseFloat(ing.amount) || 0;
         const unitPart = ing.amount.replace(/[0-9.]/g, '') || '份';
-        const total = numericPart * d.quantity * tableCount;
+
+        // Apply 10% waste coefficient
+        const wasteCoefficient = 1.1;
+        const total = numericPart * d.quantity * tableCount * wasteCoefficient;
 
         if (!map[ing.name]) {
           map[ing.name] = { name: ing.name, amount: 0, unit: unitPart, category: ing.category };
@@ -75,8 +78,8 @@ const MaterialListPage: React.FC<MaterialListPageProps> = ({ orders, dishes }) =
               <div key={cat}>
                 <div className="bg-slate-100/50 dark:bg-slate-900/30 px-5 py-1.5 flex items-center gap-2">
                   <div className={`w-1.5 h-1.5 rounded-full ${cat === '肉类' ? 'bg-red-500' :
-                      cat === '菜类' ? 'bg-green-500' :
-                        cat === '佐料类' ? 'bg-amber-500' : 'bg-slate-400'
+                    cat === '菜类' ? 'bg-green-500' :
+                      cat === '佐料类' ? 'bg-amber-500' : 'bg-slate-400'
                     }`}></div>
                   <span className="text-[10px] font-black text-slate-400 tracking-widest">{cat}</span>
                 </div>
@@ -168,6 +171,8 @@ const MaterialListPage: React.FC<MaterialListPageProps> = ({ orders, dishes }) =
         })}
       </main>
 
+      {/*
+      {/*
       <footer className="fixed bottom-0 left-0 right-0 p-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-100 dark:border-slate-800 z-30 max-w-md mx-auto space-y-3 pb-10">
         <div className="flex gap-4">
           <button className="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 h-14 rounded-2xl font-black flex items-center justify-center gap-2 active:scale-95 transition-all">
@@ -180,6 +185,7 @@ const MaterialListPage: React.FC<MaterialListPageProps> = ({ orders, dishes }) =
           </button>
         </div>
       </footer>
+      */}
     </div>
   );
 };

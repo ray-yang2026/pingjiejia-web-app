@@ -11,7 +11,7 @@ import SharePreviewPage from './pages/SharePreviewPage';
 import RecipeListPage from './pages/RecipeListPage';
 import MaterialListPage from './pages/MaterialListPage';
 import { Order, Dish } from './types';
-import { fetchOrders, updateOrderApi, fetchDishes } from './apiService';
+import { fetchOrders, updateOrderApi, fetchDishes, deleteOrderApi } from './apiService';
 
 const App: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -52,6 +52,15 @@ const App: React.FC = () => {
     }
   };
 
+  const handleDeleteOrder = async (orderId: string) => {
+    try {
+      await deleteOrderApi(orderId);
+      setOrders(prev => prev.filter(o => o.id !== orderId));
+    } catch (error) {
+      console.error("Failed to delete order", error);
+    }
+  };
+
   const refreshOrders = async () => {
     try {
       const data = await fetchOrders();
@@ -77,7 +86,7 @@ const App: React.FC = () => {
       <div className="min-h-screen bg-background-light dark:bg-background-dark max-w-md mx-auto shadow-2xl relative overflow-hidden">
         <Routes>
           <Route path="/" element={<WelcomePage />} />
-          <Route path="/orders" element={<OrderListPage orders={orders} updateOrder={updateOrder} />} />
+          <Route path="/orders" element={<OrderListPage orders={orders} updateOrder={updateOrder} deleteOrder={handleDeleteOrder} />} />
           <Route path="/recipes" element={<RecipeListPage dishes={dishes} />} />
           <Route path="/new-order" element={<CustomerFormPage addOrder={addOrder} />} />
           <Route path="/edit-order/:orderId" element={<CustomerFormPage orders={orders} updateOrder={updateOrder} />} />

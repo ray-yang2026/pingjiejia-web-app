@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Order, OrderStatus } from '../types';
 import { createOrder } from '../apiService';
+import { EVENT_REASONS } from '../constants';
 
 interface CustomerFormPageProps {
   addOrder?: (order: Order) => void;
@@ -33,24 +34,9 @@ const CustomerFormPage: React.FC<CustomerFormPageProps> = ({ addOrder, orders, u
         setDays(order.daysCount);
         setStartDate(order.startDate);
 
-        // Map event reason back to key if possible, or just set it
-        const reasonMap: Record<string, string> = {
-          '婚宴': 'wedding',
-          '寿宴': 'birthday',
-          '商务宴请': 'corporate',
-          '其他': 'other'
-        };
-        // Simple reverse mapping or default to 'other'
-        const foundReason = Object.keys(reasonMap).find(key => reasonMap[key] === order.eventReason) ?
-          Object.entries(reasonMap).find(([key, val]) => key === order.eventReason)?.[1] : 'other';
-
-        // Improve reason matching logic: if order.eventReason is one of the displayed values
-        let matchingKey = 'other';
-        if (order.eventReason === '婚宴') matchingKey = 'wedding';
-        else if (order.eventReason === '寿宴') matchingKey = 'birthday';
-        else if (order.eventReason === '商务宴请') matchingKey = 'corporate';
-
-        setReason(matchingKey);
+        // Find key from label, default to 'other'
+        const foundReason = EVENT_REASONS.find(r => r.label === order.eventReason);
+        setReason(foundReason ? foundReason.value : 'other');
       }
     }
   }, [isEditMode, orderId, orders]);
@@ -63,7 +49,7 @@ const CustomerFormPage: React.FC<CustomerFormPageProps> = ({ addOrder, orders, u
 
     setSubmitting(true);
     try {
-      const eventReasonLabel = reason === 'wedding' ? '婚宴' : reason === 'birthday' ? '寿宴' : reason === 'corporate' ? '商务宴请' : '其他';
+      const eventReasonLabel = EVENT_REASONS.find(r => r.value === reason)?.label || '其他';
 
       if (isEditMode && updateOrder && orders) {
         // Update existing order
@@ -158,10 +144,9 @@ const CustomerFormPage: React.FC<CustomerFormPageProps> = ({ addOrder, orders, u
                 onChange={(e) => setReason(e.target.value)}
                 className="w-full h-14 rounded-2xl border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 focus:ring-primary focus:border-primary font-bold"
               >
-                <option value="wedding">婚宴</option>
-                <option value="birthday">寿宴</option>
-                <option value="corporate">商务宴请</option>
-                <option value="other">其他</option>
+                {EVENT_REASONS.map(r => (
+                  <option key={r.value} value={r.value}>{r.label}</option>
+                ))}
               </select>
               <textarea
                 value={address}

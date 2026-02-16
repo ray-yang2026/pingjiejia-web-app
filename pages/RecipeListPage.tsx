@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dish } from '../types';
+import { DISH_CATEGORIES } from '../constants';
 
 interface RecipeListPageProps {
   dishes: Dish[];
@@ -10,7 +11,7 @@ interface RecipeListPageProps {
 const RecipeListPage: React.FC<RecipeListPageProps> = ({ dishes }) => {
   const navigate = useNavigate();
   const [category, setCategory] = useState('全部');
-  const categories = ['全部', '肉菜', '素菜', '汤菜', '主食点心', '饮品'];
+  const categories = DISH_CATEGORIES;
 
   const filtered = dishes.filter(d => category === '全部' || d.category === category);
 
@@ -30,8 +31,8 @@ const RecipeListPage: React.FC<RecipeListPageProps> = ({ dishes }) => {
             key={c}
             onClick={() => setCategory(c)}
             className={`px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${category === c
-                ? 'bg-primary text-white border-primary shadow-md shadow-primary/20'
-                : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500'
+              ? 'bg-primary text-white border-primary shadow-md shadow-primary/20'
+              : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500'
               }`}
           >
             {c}
@@ -88,10 +89,6 @@ const RecipeListPage: React.FC<RecipeListPageProps> = ({ dishes }) => {
           <div className="flex flex-col items-center gap-1 text-primary cursor-pointer">
             <span className="material-symbols-outlined fill-1">restaurant</span>
             <span className="text-[10px] font-bold uppercase tracking-tight">菜谱</span>
-          </div>
-          <div className="flex flex-col items-center gap-1 text-slate-400">
-            <span className="material-symbols-outlined">settings</span>
-            <span className="text-[10px] font-bold uppercase tracking-tight">我的</span>
           </div>
         </div>
       </nav>

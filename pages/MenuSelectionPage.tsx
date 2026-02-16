@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Order, Dish } from '../types';
+import { DISH_CATEGORIES } from '../constants';
 
 interface MenuSelectionPageProps {
   orders: Order[];
@@ -46,7 +47,7 @@ const MenuSelectionPage: React.FC<MenuSelectionPageProps> = ({ orders, updateOrd
     );
   }
 
-  const categories = ['全部', '推荐菜', '肉菜', '素菜', '汤菜', '主食点心', '饮品'];
+  const categories = DISH_CATEGORIES;
   const filteredDishes = dishes.filter(d => selectedCategory === '全部' || d.category === selectedCategory);
 
   const updateCart = (id: string, delta: number) => {
@@ -105,8 +106,8 @@ const MenuSelectionPage: React.FC<MenuSelectionPageProps> = ({ orders, updateOrd
             key={cat}
             onClick={() => setSelectedCategory(cat)}
             className={`flex h-9 shrink-0 items-center justify-center rounded-full px-5 text-xs font-bold border transition-all ${selectedCategory === cat
-                ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
-                : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700'
+              ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
+              : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700'
               }`}
           >
             {cat}
@@ -133,7 +134,7 @@ const MenuSelectionPage: React.FC<MenuSelectionPageProps> = ({ orders, updateOrd
               <div className="p-3 flex flex-col flex-1">
                 <p className="font-bold text-sm truncate">{dish.name}</p>
                 <div className="mt-2 flex items-center justify-between">
-                  <p className="text-primary font-black text-sm">￥{dish.price}</p>
+                  <p className="text-primary font-black text-sm">￥{dish.price}/桌</p>
 
                   <div className="flex items-center gap-2">
                     {cart[dish.id] ? (
@@ -197,7 +198,7 @@ const MenuSelectionPage: React.FC<MenuSelectionPageProps> = ({ orders, updateOrd
                     <img src={item.imageUrl} className="size-16 rounded-2xl object-cover shadow-sm" />
                     <div className="flex-1">
                       <p className="font-bold text-sm group-hover:text-primary transition-colors">{item.name}</p>
-                      <p className="text-xs text-primary font-black mt-1">￥{item.price}</p>
+                      <p className="text-xs text-primary font-black mt-1">￥{item.price}/桌</p>
                     </div>
                     <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800 p-1.5 rounded-xl">
                       <button onClick={() => updateCart(item.id, -1)} className="size-7 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm">

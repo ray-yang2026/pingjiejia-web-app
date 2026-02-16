@@ -30,14 +30,6 @@ const DishDetailPage: React.FC<DishDetailPageProps> = ({ dishes }) => {
         >
           <span className="material-symbols-outlined">arrow_back_ios_new</span>
         </button>
-        <div className="flex gap-2">
-          <button className="size-10 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-md text-white">
-            <span className="material-symbols-outlined">share</span>
-          </button>
-          <button className="size-10 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-md text-white">
-            <span className="material-symbols-outlined">favorite</span>
-          </button>
-        </div>
       </div>
 
       {/* Hero Image */}
@@ -49,11 +41,7 @@ const DishDetailPage: React.FC<DishDetailPageProps> = ({ dishes }) => {
       {/* Content Container */}
       <div className="relative -mt-12 rounded-t-[40px] bg-background-light dark:bg-background-dark px-6 pt-10 shadow-2xl flex-1 pb-32">
         <div className="flex items-center justify-between mb-4">
-          <span className="bg-primary/10 text-primary text-xs font-bold px-3 py-1.5 rounded-full">招牌推荐</span>
-          <div className="flex items-center gap-1 text-amber-500">
-            <span className="material-symbols-outlined fill-1 !text-lg">star</span>
-            <span className="text-xs font-bold">4.9 (200+ 好评)</span>
-          </div>
+          <span className="bg-primary/10 text-primary text-xs font-bold px-3 py-1.5 rounded-full">{dish.category}</span>
         </div>
 
         <h1 className="text-3xl font-bold mb-3">{dish.name}</h1>
@@ -77,11 +65,6 @@ const DishDetailPage: React.FC<DishDetailPageProps> = ({ dishes }) => {
             ))}
           </div>
         </section>
-
-        <div className="mt-12 text-center pb-12">
-          <p className="text-slate-400 text-xs">向下滑动查看更多做法详情</p>
-          <span className="material-symbols-outlined text-slate-300">expand_more</span>
-        </div>
       </div>
 
       {/* Floating Price Action */}
@@ -92,7 +75,7 @@ const DishDetailPage: React.FC<DishDetailPageProps> = ({ dishes }) => {
         >
           <div className="flex flex-col items-start">
             <span className="text-[10px] uppercase opacity-70">每桌价格</span>
-            <span className="text-xl">￥{dish.price.toFixed(2)}</span>
+            <span className="text-xl">￥{dish.price.toFixed(2)}/桌</span>
           </div>
           <div className="flex items-center gap-1">
             <span>加入订单</span>
