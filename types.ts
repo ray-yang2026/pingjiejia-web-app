@@ -16,10 +16,11 @@ export interface IngredientLibraryItem {
 
 /** 菜品关联的原材料（带分量） */
 export interface Ingredient {
-  libId: string;           // 指向 IngredientLibraryItem.id
+  libId?: string;          // 指向 IngredientLibraryItem.id（旧数据可能没有）
   name: string;
   amount: string;
   category: string;
+  detail?: string;         // 兼容旧数据
 }
 
 // ==================== 菜品 ====================

@@ -21,10 +21,11 @@ class IngredientLibraryItem(BaseModel):
 
 class Ingredient(BaseModel):
     """菜品关联的原材料（带分量）"""
-    libId: str  # 指向 IngredientLibraryItem.id
+    libId: Optional[str] = None  # 指向 IngredientLibraryItem.id（旧数据可能没有）
     name: str
     amount: str
     category: str
+    detail: Optional[str] = None  # 兼容旧数据
 
 
 class Dish(BaseModel):

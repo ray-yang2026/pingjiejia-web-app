@@ -22,12 +22,14 @@ const App: React.FC = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [ordersData, dishesData] = await Promise.all([
+        const results = await Promise.allSettled([
           fetchOrders(),
           fetchDishes(),
         ]);
-        setOrders(ordersData);
-        setDishes(dishesData);
+        if (results[0].status === 'fulfilled') setOrders(results[0].value);
+        else console.error('加载订单失败:', results[0].reason);
+        if (results[1].status === 'fulfilled') setDishes(results[1].value);
+        else console.error('加载菜品失败:', results[1].reason);
       } catch (err) {
         console.error('加载数据失败:', err);
       } finally {
