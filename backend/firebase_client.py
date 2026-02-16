@@ -17,11 +17,17 @@ if not firebase_admin._apps:
     if env_creds:
         try:
             import json
+            # 处理 Vercel 环境变量中可能的转义换行符
+            env_creds = env_creds.replace("\\n", "\n")
             # 处理可能的 JSON 字符串
             cred_dict = json.loads(env_creds)
             cert = credentials.Certificate(cred_dict)
+            print("Successfully loaded Firebase credentials from environment.")
+        except json.JSONDecodeError as e:
+            print(f"Error: Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON: {e}")
+            # print(f"Raw content (for debugging): {env_creds[:50]}...") # 仅打印前50字符避免泄露
         except Exception as e:
-            print(f"Warning: Failed to load credentials from env: {e}")
+            print(f"Error: Failed to initialize Firebase credentials from env: {e}")
 
     # 2. 尝试本地文件 (Local Development)
     if not cert and os.path.exists(_CRED_PATH):
