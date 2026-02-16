@@ -17,10 +17,9 @@ if not firebase_admin._apps:
     if env_creds:
         try:
             import json
-            # 处理 Vercel 环境变量中可能的转义换行符
-            env_creds = env_creds.replace("\\n", "\n")
-            # 处理可能的 JSON 字符串
-            cred_dict = json.loads(env_creds)
+            # 处理 Vercel 环境变量（移除 .replace("\\n", "\n") 因为这会导致 JSON 包含非法控制字符）
+            # 使用 strict=False 允许字符串中存在控制字符（如实际换行符）
+            cred_dict = json.loads(env_creds, strict=False)
             cert = credentials.Certificate(cred_dict)
             print("Successfully loaded Firebase credentials from environment.")
         except json.JSONDecodeError as e:
