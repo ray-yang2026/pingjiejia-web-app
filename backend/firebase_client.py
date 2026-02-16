@@ -24,10 +24,10 @@ if not firebase_admin._apps:
             cert = credentials.Certificate(cred_dict)
             print("Successfully loaded Firebase credentials from environment.")
         except json.JSONDecodeError as e:
-            print(f"Error: Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON: {e}")
-            # print(f"Raw content (for debugging): {env_creds[:50]}...") # 仅打印前50字符避免泄露
+            # 调试信息：打印错误和数据特征
+            raise ValueError(f"JSON Decode Error: {e} | Content len: {len(env_creds)} | Start: {env_creds[:20]}...")
         except Exception as e:
-            print(f"Error: Failed to initialize Firebase credentials from env: {e}")
+            raise ValueError(f"Firebase Init Error: {e}")
 
     # 2. 尝试本地文件 (Local Development)
     if not cert and os.path.exists(_CRED_PATH):
@@ -40,7 +40,11 @@ if not firebase_admin._apps:
     if cert:
         firebase_admin.initialize_app(cert, init_opts)
     else:
-        # 在没有凭证的情况下初始化（可能依赖 GCP 环境自动认证），但在 Vercel 上通常需要凭证
+        # 在 Vercel 环境下，如果没有凭证则直接报错，避免后续 ADC 错误
+        if os.environ.get("VERCEL"): 
+             raise ValueError("Fatal: No Firebase credentials found in Vercel environment.")
+        
+        # 本地可能依赖 ADC
         try:
             firebase_admin.initialize_app(options=init_opts)
         except Exception:
