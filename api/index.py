@@ -6,15 +6,20 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../backend'))
 
 try:
     from backend.main import app
-except Exception as e:
+except Exception:
     import traceback
-    from fastapi import FastAPI
-    from fastapi.responses import PlainTextResponse
+    from http.server import BaseHTTPRequestHandler
 
-    app = FastAPI()
-
-    @app.api_route("/{path_name:path}", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
-    async def catch_all(path_name: str):
-        error_msg = f"Application Startup Error:\\n{traceback.format_exc()}"
-        print(error_msg)
-        return PlainTextResponse(error_msg, status_code=500)
+    # 如果 FastAPI 导入失败，使用标准库 handler 返回错误堆栈
+    class handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(500)
+            self.send_header('Content-type', 'text/plain; charset=utf-8')
+            self.end_headers()
+            error_msg = f"Application Startup Error (No Dependencies):\n{traceback.format_exc()}"
+            self.wfile.write(error_msg.encode('utf-8'))
+        
+        def do_POST(self): self.do_GET()
+        def do_PUT(self): self.do_GET()
+        def do_DELETE(self): self.do_GET()
+        def do_OPTIONS(self): self.do_GET()
