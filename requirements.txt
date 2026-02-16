@@ -2,5 +2,4 @@ fastapi
 uvicorn
 firebase-admin
 pydantic
-python-multipart
-# force rebuild
+python-multipart==0.0.9
